@@ -66,13 +66,14 @@ I also ran the Streamlit app again and checked the fixes directly in the interfa
 
 ## 4. What did you learn about Streamlit and state?
 
-- How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+Streamlit reruns the Python script from top to bottom whenever the user interacts with the app. Normal variables would therefore be recreated during each rerun. `st.session_state` provides a way to keep values such as the secret number, score, attempts, and history available between reruns. This project helped me understand that the order in which state is read, updated, and displayed can affect what the user sees.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
-- What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
-- What is one thing you would do differently next time you work with AI on a coding task?
-- In one or two sentences, describe how this project changed the way you think about AI generated code.
+One habit I want to reuse is reproducing a bug first, writing down the expected and actual behavior, and then verifying the fix with both automated tests and manual testing.
+
+Next time I use AI for a coding task, I would give it one focused problem at a time and review each diff before accepting the changes instead of asking for a large set of changes at once.
+
+This project showed me that AI-generated code can look reasonable while still containing subtle logic and state bugs. I learned that AI suggestions should be treated as code to review and test, not as automatically correct solutions.

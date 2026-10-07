@@ -25,29 +25,37 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+The purpose of this project was to debug an AI-generated Streamlit number guessing game and make its behavior consistent and testable.
+
+I found several bugs, including reversed high/low hints, incorrect attempt counting, difficulty ranges that did not match the generated secret, and incomplete New Game state resets.
+
+I fixed the core guess-checking logic by moving it into `logic_utils.py`, corrected the hint mapping, fixed difficulty-specific ranges and game resets, and added regression tests to verify the repairs.
 
 ## 📸 Demo Walkthrough
 
-Describe your fixed game in numbered steps so a reader can follow along without watching a video:
-
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User starts a Normal game with the full number of attempts available.
+2. User enters a guess below the secret number.
+3. The game returns "Too Low" and tells the user to go higher.
+4. User enters a guess above the secret number.
+5. The game returns "Too High" and tells the user to go lower.
+6. User enters the correct number and wins the game.
+7. Clicking New Game resets the score, attempts, history, and game status.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
 ## 🧪 Test Results
 
-```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
-```
+============================================================= test session starts =============================================================
+platform darwin -- Python 3.13.5, pytest-8.3.4, pluggy-1.5.0
+rootdir: /Users/sbedoui/codepath/ai110-module1show-gameglitchinvestigator-starter
+configfile: pytest.ini
+plugins: anyio-4.7.0
+collected 8 items                                                                                                                             
+
+tests/test_game_logic.py ........                                                                                                       [100%]
+
+============================================================== 8 passed in 0.63s ==============================================================
+
 
 ## 🚀 Stretch Features
 
