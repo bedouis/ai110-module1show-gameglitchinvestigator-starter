@@ -46,18 +46,21 @@ Three concrete bugs stood out during my initial testing:
 
 ## 2. How did you use AI as a teammate?
 
-- Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
-- Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
-- Give one example of an AI suggestion you did not accept as written (including what the AI suggested, why you rejected or changed it, and how you verified your version). It does not have to be a suggestion that was wrong: over-engineered, out of scope, harder to read, or a poor fit for this codebase all count.
+I used Claude AI coding assistant to help investigate, refactor, and test the game. One suggestion that was correct was to move check_guess out of app.py and into logic_utils.py, while keeping the Streamlit-specific hint messages in app.py. The AI also removed the unnecessary logic that converted the secret number to a string on alternating attempts. This made check_guess a small, testable function that returns only "Win", "Too High", or "Too Low", which matched the expectations of the existing tests. I verified this change by running pytest, and all three original game-logic tests passed.
+
+One AI result I did not accept as complete was its first version of the refactor, because it intentionally left the user-facing hint messages unchanged. That meant "Too High" still displayed "Go HIGHER!" and "Too Low" still displayed "Go LOWER!". Although the refactor itself was correct, it did not completely fix the bug I had observed in the game, so I asked the AI to update the HINT_MESSAGES mapping separately. After that change, "Too High" correctly told the player to go lower and "Too Low" correctly told the player to go higher. I verified the change by rerunning pytest and adding a regression test specifically checking that the hint direction matches the outcome.
 
 ---
 
 ## 3. Debugging and testing your fixes
 
-- How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
-- Did AI help you design or understand any tests? How?
+I decided that a bug was fixed only after I could verify the new behavior with tests and by running the Streamlit app again. Before the refactor, the tests could not exercise the intended implementation because logic_utils.py still contained NotImplementedError. After moving check_guess into logic_utils.py, all three original tests passed, confirming that winning, too-high, and too-low guesses were being classified correctly.
+
+I then added a regression test for the reversed hint bug. The test uses check_guess to produce the outcome and verifies that a "Too High" result maps to a message containing "LOWER" and a "Too Low" result maps to one containing "HIGHER". After adding this test, all four tests passed.
+
+For the new-game and difficulty bugs, the AI helped me create additional tests using Streamlit's AppTest. These tests verified that a fresh game begins with zero attempts used, the instructions reflect the selected difficulty range, New Game generates the secret using the selected difficulty's range, and New Game resets attempts, score, status, and history. The full suite finished with eight passing tests.
+
+I also ran the Streamlit app again and checked the fixes directly in the interface. I verified that guesses below the secret told me to go higher, guesses above the secret told me to go lower, the displayed range changed correctly with the selected difficulty, and starting a new game reset the game state as expected. This manual check helped confirm that the fixes worked not only in isolated tests but also in the actual user experience.
 
 ---
 
